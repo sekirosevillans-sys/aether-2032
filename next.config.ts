@@ -1,15 +1,27 @@
 import type { NextConfig } from "next";
 
+const isGitHubPages = process.env.GITHUB_PAGES === 'true';
+
 const nextConfig: NextConfig = {
-  // Silence workspace root warning (we have the project inside a larger folder)
+  // Silence workspace root warning
   turbopack: {
     root: __dirname,
   },
 
-  // Good defaults for Cloudflare Pages deployment
+  // Static export
+  output: 'export',
+
+  // Required for static hosting
   images: {
-    unoptimized: true, // Cloudflare Pages static hosting
+    unoptimized: true,
   },
+
+  // Trailing slashes (recommended for static hosting)
+  trailingSlash: true,
+
+  // When deploying to GitHub Pages (project site), we need basePath
+  basePath: isGitHubPages ? '/aether-2032' : '',
+  assetPrefix: isGitHubPages ? '/aether-2032/' : '',
 };
 
 export default nextConfig;
